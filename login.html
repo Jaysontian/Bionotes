@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Login</title>
+  </head>
+  <body>
+    <div class='padding'>
+      <div style='margin-top:140px;' id='loginscreen'>
+        <h2>Bionotes Login</h2>
+        <p>Login to edit, save, and share notes.</p>
+        <input id='email' placeholder='Email'></input><br>
+        <input id='password' style='margin-top:10px;' placeholder='Password'></input><br><br>
+        <button onclick='login()'>Login</button>
+        <button onclick='signup()'>Sign Up</button>
+      </div>
+      <div style='margin-top:40px; width:500px;' id='home'>
+        <div id='main-menu'>
+          <h2 id='welcome'></h2>
+          <div class='flex'>
+            <button onclick='signOut()'>New Note</button> <div class='space'></div>
+            <button onclick='signOut()'>Logout</button>
+          </div>
+          <div id='news-con'>
+            <div>
+              <h1>Title 1</h1>
+            </div>
+          </div>
+        </div>
+
+        <div id='editusername'>
+          <h2>Last Step</h2>
+          <p>What is your name?</p>
+          <input placeholder='First Name' id='username'><input placeholder='Last Name' id='lastname'>
+          <button onclick='setName()' required="required">Submit</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-firestore.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyBc1PXp-BbDhuRzAUWr_7JPO-C7RhdmFtI",
+        authDomain: "bionotes-4c577.firebaseapp.com",
+        databaseURL: "https://bionotes-4c577.firebaseio.com",
+        projectId: "bionotes-4c577",
+        storageBucket: "bionotes-4c577.appspot.com",
+        messagingSenderId: "446230016469",
+        appId: "1:446230016469:web:d228d499ad5b0ee67f0d5c"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+
+      function login(){
+        var email = $('#email').val();
+        var password = $('#password').val();
+        $('#email').val('');
+        $('#password').val('');
+
+        firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+          // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          // ...
+        });
+      }
+
+      function signup(){
+        var email = $('#email').val();
+        var password = $('#password').val();
+        firebase.auth().createUserWithEmailAndPassword(email, password).then(()=>{
+          var uid = firebase.auth().currentUser.uid;
+          newUser(uid);
+        }).catch(function(error) {
+          // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          alert(error.message)
+          // ...
+        })
+      }
+
+      var name;
+      var uid;
+
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          $('#loginscreen').hide();
+          $('#home').show();
+          uid = user.uid;
+
+          var starCountRef = firebase.database().ref('users/' + uid + '/name');
+          starCountRef.on('value', function(snapshot) {
+            if (snapshot.val() == undefined){
+              console.log('Missing name data.');
+              $('#editusername').show();
+              $('#main-menu').hide();
+            }
+            else {
+              console.log('Your name is ' + snapshot.val());
+              $('#welcome').text(snapshot.val());
+            }
+          });
+
+          // ...
+        } else {
+          $('#loginscreen').show();
+          $('#home').hide();
+
+          // User is signed out.
+          // ...
+        }
+      });
+
+      function signOut() {
+        firebase.auth().signOut().then(function() {
+          console.log('Signed Out');
+        }, function(error) {
+          console.error('Sign Out Error', error);
+        });
+      }
+
+      function setName(){
+        var newname = $('#username').val();
+        var lastname = $('#lastname').val();
+        if (newname != null && newname != '' && newname != undefined && newname!= ' ' && newname.length > 2){
+          firebase.database().ref('/users/'+ uid).child('name').set(newname + ' ' + lastname);
+          $('#editusername').hide();
+          $('#main-menu').show();
+          $('#welcome').text(newname + ' ' + lastname)
+        }
+        else {
+          alert('Please enter a valid name!')
+        }
+      }
+
+
+
+
+
+
+      /// DATA
+
+      var database = firebase.database();
+
+
+      function newUser(uid){
+        var userData = {
+          posts: [
+            {
+              title: 'New Post',
+              date: 'January 1st 2020'
+            }
+          ]
+        };
+        firebase.database().ref('/users/'+ uid).set(userData);
+      }
+
+    </script>
+
+
+  </body>
+  <style>
+    #editusername {
+      display:none;
+    }
+    #home{
+      display:none;
+    }
+    body{
+      margin:0px;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      color:rgba(0,0,0,0.85);
+      font-weight:400;
+      display:flex;
+      overflow:hidden;
+      font-size:16pt;
+    }
+
+    h1 {
+      font-weight:700;
+      margin-top:20px;
+    }
+    h2 {
+      font-weight:600;
+      font-size:17pt;
+    }
+    p {
+      font-size:11.5pt;
+      line-height: 22.85px;
+    }
+
+    a {
+
+    }
+
+    i {
+      color:rgba(0,0,0,0.65);
+      margin-right:8px;
+    }
+
+    hr{
+      margin: 25px 0px;
+      border-width:1px;
+      border-color:rgba(0,0,0,0.15);
+    }
+
+    .right{
+      margin-left:6.5px;
+      margin-right:0px;
+    }
+
+    h4{
+      font-size:16pt;
+      font-weight:500;
+      margin:0px;
+      margin-bottom:20px;
+    }
+
+    input {
+      border-radius:4px;
+      outline:none;
+      border:none;
+      background-color:rgba(0,0,0,0.07);
+      border:1px solid rgba(0,0,0,0.3);
+      padding:4px 10px;
+      font-size:11.5pt;
+      width:230px;
+    }
+
+
+
+
+    button, select{
+      border:1px solid rgba(0,0,0,0.12);
+      border-radius:3px;
+      font-size:10pt;
+      font-weight:500;
+      padding:4px 10px;
+      color:rgba(0,0,0,0.75);
+      cursor:pointer;
+      outline:none;
+    }
+
+    select{
+      background-color:white;
+      border:none;
+      transition: all 0.15s ease-in-out;
+    }
+
+    select:hover{
+      background-color:rgba(0,0,0,0.08);
+    }
+
+    button:hover{
+      background-color:rgba(0,0,0,0.05)
+    }
+
+    .flex{
+      display:flex;
+    }
+
+    .center{
+      displat:flex;
+      flex-direction: column;
+      justify-content: space-around;
+    }
+
+    .space{
+      width:10px;
+    }
+
+    .tag {
+      background-color:rgba(0,0,0,0.08);
+      max-width:40px;
+      font-size:10pt;
+      padding:2px 2px;
+      text-align:center;
+      border-radius:12px;
+      color:rgba(0,0,0,0.6);
+    }
+
+    .card {
+      color:white;
+      text-align: center;
+      border:1px solid rgba(0,0,0,0.16);
+      border-radius:5px;
+      padding:20px 50px;
+      background-image: url('bg1.jpg');
+      background-size: cover;
+    }
+
+    .sidebar {
+      max-width: 250px;
+      min-width: 200px;
+      background-color:rgba(0,0,0,0.05);
+      display:flex;
+      flex-direction: column;
+      padding-top:50px;
+      width:20%;
+      height:2000px;
+    }
+
+    .sidebar h1, .sidebar p {
+      padding-left:20px;
+    }
+
+    .sidebar input{
+      margin:15px 20px;
+      font-size:10pt;
+    }
+
+    .sidebar a{
+      font-size:10pt;
+      padding:10px 2px;
+      padding-left:20px;
+    }
+
+    .sidebar a:hover {
+      background-color:rgba(0,0,0,0.08);
+      cursor:pointer;
+    }
+
+    .padding {
+      width:100%;
+      display:flex;
+      justify-content: space-around;
+    }
+
+    .main {
+      width:100%;
+      padding:30px 50px;
+      max-width:550px;
+    }
+
+    .list div, .placeholder, .edit{
+      color:rgba(0,0,0,0.75);
+      width:100%;
+      border:1px solid rgb(222, 226, 228);
+      border-radius:3px;
+      padding:5px 15px;
+      font-size:10.5pt;
+      line-height: 22.85px;
+      margin-bottom:10px;
+      margin-right:10px;
+      cursor:pointer;
+      display:flex;
+      justify-content: space-between;
+    }
+
+    .placeholder {
+      background-color:white;
+      cursor:text;
+    }
+
+    .edit {
+      width:91%;
+      background-color:white;
+      cursor:text;
+      outline:none;
+      resize: none;
+      overflow-wrap: break-word;
+    }
+
+    .list p{
+      width: 80%;
+      font-size:11pt;
+      margin:0px;
+    }
+
+    .list span{
+      background-color:#b6d7fc;
+      color:#3f6999;
+      font-size:9.5pt;
+      font-weight: 600;
+      border-radius:5px;
+      width:60px;
+      height:20.5px;
+      text-align: center;
+      float:right;
+    }
+
+    .list {
+      display:flex;
+      flex-wrap: wrap;
+    }
+    .list div:hover, .placeholder:hover, .edit:hover{
+      background-color:rgba(0,0,0,0.03)
+    }
+
+    #news-con{
+      height:450px;
+      overflow: scroll;
+    }
+
+    #news-con div{
+      padding:15px 25px;
+      border:1px solid rgba(0,0,0,0.1);
+      border-radius:5px;
+      margin-bottom:10px;
+    }
+
+    #news-con h1{
+      font-size:12pt;
+      font-weight:600;
+      margin:7px 0px;
+    }
+    #news-con p{
+      font-size:10pt;
+      color:rgba(0,0,0,0.65)
+    }
+
+    #news-con span{
+      float:right;
+    }
+
+
+
+
+
+    /* The Modal (background) */
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgb(0,0,0); /* Fallback color */
+      background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content/Box */
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto; /* 15% from the top and centered */
+      padding: 20px;
+      border: 1px solid #888;
+      width: 400px; /* Could be more or less, depending on screen size */
+      border-radius:5px;
+    }
+
+    /* The Close Button */
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+</style>
+</html>

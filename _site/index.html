@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<link rel="stylesheet" href="/css/main.css">
+	<link rel="stylesheet" href="/css/layout.css">
+	<link rel="stylesheet" href="/css/light.css">
+	<!-- Place this tag in your head or just before your close body tag. -->
+	<script async defer src="https://buttons.github.io/buttons.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://kit.fontawesome.com/e8c8e8e543.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+	<title>Bionotes</title>
+	<link rel="canonical" href="http://localhost:4000/">
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700,800,600' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+
+
+<body>
+	<div>
+		
+<script>
+	$(window).scroll(function() {
+    var scroll = $(window).scrollTop();
+    if (scroll > 0) {
+        $("#navbar").addClass("active");
+        $("#logo").addClass("active");
+        $('#titlebar').css('opacity','1');
+    }
+    else {
+        $("#navbar").removeClass("active");
+        $("#logo").removeClass("active");
+        $('#titlebar').css('opacity','0');
+    }
+	});
+
+    function myFunction(x) {
+      x.classList.toggle("change");
+    }
+
+    var i = 1;
+    function togglemenu(){
+        i *= -1;
+        if (i==-1){
+            $(".dropdown-content").css("display",'block');
+            $('.menuicon').removeClass('fa-bars');
+            $('.menuicon').addClass('fa-times');
+        }
+        else{
+            $(".dropdown-content").css("display",'none');
+            $('.menuicon').addClass('fa-bars');
+            $('.menuicon').removeClass('fa-times');
+        }
+    }
+</script>
+
+<div id='navbar'>
+    <div id='navcon'>
+        <div class="dropdown">
+            <i onclick='togglemenu()' class="menuicon fas fa-bars"></i>
+            <div class="dropdown-content">
+                <div class='flex'>
+                    <div>
+                        <p><b> Courses</b></p>
+                        <a href="#">Grade 11</a>
+                        <a href="#">Grade 12</a>
+                        <a href="#">Biochemistry</a>
+                        <a href="#">AP Prep</a>
+                        <a href="#">More</a>
+                    </div>
+                    <div>
+                        <p><b> Resources</b></p>
+                        <a href="#">Study Guide</a>
+                        <a href="#">Graphing</a>
+                        <a href="#">IB Standards</a>
+                        <a href="#">More</a>
+                    </div>
+                    <div>
+                        <p><b> Bionotes</b></p>
+                        <a href="#">About</a>
+                        <a href="#">Contact</a>
+                        <a href="#">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a href="/index"><img src='https://raw.githubusercontent.com/Jaysontian/Wiki/master/logo.png' id='logo'></img>
+
+        <a id='titlebar'></a>
+
+        <div class='right'>
+            <input class='search' type="text" placeholder="Search" aria-label="Search">
+            <i class='search-icon fas fa-search'></i>
+						<button class='btnnew' onclick="window.location.assign('/login.html')">Login</button>
+    	</div>
+    </div>
+</div>
+
+		<main class='movedown'>
+			<article>
+				<div id="intro">
+	<img id="bg" src="/css/bg.jpg" />&lt;/img&gt;
+	<div id="holder">
+		<h1>STUDY BIOLOGY EASIER.</h1>
+		<p>Bionotes is an online biology classroom striving to provide free and accessible lessons, study notes, and review for anyone, everywhere.</p>
+		<a href="/categories/">Categories</a>
+	</div>
+</div>
+
+<div class="padding2">
+	<h2 class="heading">Recent Articles</h2>
+	<div class="gallery">
+		
+		<a style="text-decoration: none;color:rgba(0,0,0,0.86)" href="/campbell/2019/10/15/tech-addiciton.html">
+			<div class="post-con">
+				<img class="thumbnail" src="https://s.yimg.com/ny/api/res/1.2/mvDefSRl3EkSEt_YfsLjeg--~A/YXBwaWQ9aGlnaGxhbmRlcjtzbT0xO3c9ODAw/https://media-mbst-pub-ue1.s3.amazonaws.com/creatr-uploaded-images/2019-08/24565700-c5c8-11e9-ab5b-903ae75b5966" />
+				<p>Note</p>
+				<h5>Bacteria and Archaea</h5>
+			</div>
+		</a>
+		
+		<a style="text-decoration: none;color:rgba(0,0,0,0.86)" href="/diversity/2019/10/12/what-causes-loss-of-biodiversity.html">
+			<div class="post-con">
+				<img class="thumbnail" src="https://c4.wallpaperflare.com/wallpaper/96/830/538/underwater-sea-fish-coral-wallpaper-preview.jpg" />
+				<p>Article</p>
+				<h5>What Causes Loss of Biodiversity?</h5>
+			</div>
+		</a>
+		
+		<a style="text-decoration: none;color:rgba(0,0,0,0.86)" href="/2019/10/12/phylogetic-tree-of-lizards.html">
+			<div class="post-con">
+				<img class="thumbnail" src="https://www.thesprucepets.com/thmb/foqdkh8lTycf7LqFYFX7H887Llo=/960x0/filters:no_upscale():max_bytes(150000):strip_icc()/88521688-56a2bcf93df78cf7727961f7.jpg" />
+				<p>Lesson</p>
+				<h5>The Lizard Dilemma: Evolution?</h5>
+			</div>
+		</a>
+		
+		<a style="text-decoration: none;color:rgba(0,0,0,0.86)" href="/2019/10/12/how-to-pass-a-lie-detector.html">
+			<div class="post-con">
+				<img class="thumbnail" src="https://www.thoughtco.com/thmb/TyGz3Bkx72mOULMUIxXlv7llWmY=/768x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/fbi-lie-detector-test-521967202-59b7ff6622fa3a0011489b69.jpg" />
+				<p>Development</p>
+				<h5>How To Pass A Lie Detector Test</h5>
+			</div>
+		</a>
+		
+	</div>
+	<h2 class="heading">Courses</h2>
+
+
+	
+</div>
+
+			</article>
+			
+<hr>
+<footer class='footer'>
+	<a href="http://jaysontian.github.io">Site</a>
+	<a href=''>Instagram</a>
+	<a>Blog</a>
+	<a>RSS</a>
+	<div class='right'>
+		<a>Made by Jayson Tian</a>
+	</div>
+</footer>
+
+		</main>
+	</div>
+</body>
+
+</html>
